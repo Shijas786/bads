@@ -58,6 +58,13 @@ export default function Auction() {
                     </div>
                 </div>
 
+                {/* Debug Panel - Remove later */}
+                <div style={{ background: '#111', padding: 8, fontSize: 10, color: '#666', marginBottom: 20 }}>
+                    RAW DATA: {JSON.stringify(auctionData, (key, value) =>
+                        typeof value === 'bigint' ? value.toString() : value // Handle BigInt serialization
+                    )}
+                </div>
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold' }}>Current Bids</h3>
                     <div style={{ fontSize: '12px', color: '#888' }}>
