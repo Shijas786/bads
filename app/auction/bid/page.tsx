@@ -24,8 +24,9 @@ export default function BidPage() {
     }, [router]);
 
     // Contract Config
+    const contractAddress = (process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS || "0xcE76Ed3427BDf5FbFe503EbA07263637dE03a3bC") as `0x${string}`;
     const contractConfig = {
-        address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
+        address: contractAddress,
         abi: AD_AUCTION_ABI,
     };
 
@@ -65,7 +66,7 @@ export default function BidPage() {
         try {
             setStatus('Initiating transaction...');
             await writeContractAsync({
-                address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
+                address: (process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS || "0xcE76Ed3427BDf5FbFe503EbA07263637dE03a3bC") as `0x${string}`,
                 abi: AD_AUCTION_ABI,
                 functionName: 'placeBid',
                 args: ['bads-daily-1'],
@@ -87,7 +88,7 @@ export default function BidPage() {
         try {
             setStatus('Creating auction...');
             await writeContractAsync({
-                address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
+                address: (process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS || "0xcE76Ed3427BDf5FbFe503EbA07263637dE03a3bC") as `0x${string}`,
                 abi: AD_AUCTION_ABI,
                 functionName: 'createAuction',
                 args: ['bads-daily-1', parseEther('0.0001'), BigInt(86400)], // 24 hours
@@ -116,7 +117,7 @@ export default function BidPage() {
                 <div style={{ background: '#111', padding: 12, borderRadius: 8, border: '1px dashed #444', marginBottom: 20, fontSize: 12, color: '#888' }}>
                     <p><strong>Debug Info:</strong></p>
                     <p>Chain ID: {chainId}</p>
-                    <p>Contract: {process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS}</p>
+                    <p>Contract: {contractAddress}</p>
                     <p>Auction Loaded: {isReading ? 'Loading...' : 'Yes'}</p>
                     <p>Auction Exists: {auctionExists ? '✅ YES' : '❌ NO'}</p>
                     {readError && <p style={{ color: 'red' }}>Read Error: {readError.message}</p>}
