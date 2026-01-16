@@ -23,8 +23,9 @@ export function Navbar() {
             justifyContent: 'space-between',
             position: 'sticky',
             top: 0,
-            background: 'rgba(255,255,255,0.9)',
+            background: 'rgba(0,0,0,0.9)',
             backdropFilter: 'blur(10px)',
+            color: '#fff',
             zIndex: 50,
             borderBottom: '1px solid var(--border)'
         }}>

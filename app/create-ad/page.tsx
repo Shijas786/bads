@@ -47,7 +47,7 @@ export default function CreateAd() {
                 </Link>
                 <div className={styles.logo}>
                     <div style={{ width: 24, height: 24, background: '#E3F87D', borderRadius: 4 }}></div>
-                    <span>MADS</span>
+                    <span>BADS</span>
                 </div>
                 <Share size={24} color="#fff" />
             </header>
@@ -78,7 +78,7 @@ export default function CreateAd() {
                         value={formData.projectName}
                         onChange={handleInputChange}
                     />
-                    <p className={styles.helperText}>This will appear on the ad card (e.g. MADS).</p>
+                    <p className={styles.helperText}>This will appear on the ad card (e.g. BADS).</p>
                 </div>
 
                 {/* Campaign Title */}

@@ -25,11 +25,11 @@ export default function Auction() {
                     </p>
 
                     <div style={{ display: 'flex', gap: '12px' }}>
-                        <button className="btn-outline" style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', flex: 1 }}>
+                        <button className="btn-outline" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', flex: 1 }}>
                             How it works
                         </button>
                         <Link href="/create-ad" style={{ flex: 1 }}>
-                            <button className="btn-primary" style={{ background: '#fff', color: 'var(--primary)', width: '100%' }}>
+                            <button className="btn-primary" style={{ background: '#000', color: '#fff', width: '100%', border: '1px solid #333' }}>
                                 <Plus size={20} />
                                 Enter your Bid
                             </button>
