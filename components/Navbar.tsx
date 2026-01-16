@@ -23,16 +23,17 @@ export function Navbar() {
             justifyContent: 'space-between',
             position: 'sticky',
             top: 0,
-            background: 'rgba(0,0,0,0.8)',
+            background: 'rgba(255,255,255,0.9)',
             backdropFilter: 'blur(10px)',
-            zIndex: 50
+            zIndex: 50,
+            borderBottom: '1px solid var(--border)'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <X size={24} />
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <div className="icon-face">😬</div>
+                <Image src="/images/logo.png" alt="BADS Mascot" width={40} height={40} style={{ borderRadius: '50%' }} />
                 <span style={{ fontWeight: 'bold', fontSize: '18px' }}>BADS</span>
                 <ChevronDown size={20} />
             </div>

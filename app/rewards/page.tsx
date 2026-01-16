@@ -5,6 +5,7 @@ import { BottomNav } from '@/components/BottomNav';
 import { Settings, Bell, RefreshCw, Wallet } from 'lucide-react';
 import { SignInButton, useProfile } from '@farcaster/auth-kit';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function Rewards() {
     const { profile, isAuthenticated } = useProfile();
@@ -41,17 +42,21 @@ export default function Rewards() {
                     </div>
                 </div>
 
-                <div className="gradient-bg" style={{ position: 'relative', marginBottom: '16px', minHeight: '280px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="gradient-bg" style={{ position: 'relative', marginBottom: '16px', minHeight: '280px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--primary)' }}>
                     <div style={{ position: 'absolute', top: '16px', right: '16px' }}>
-                        <RefreshCw size={20} />
+                        <RefreshCw size={20} color="white" />
                     </div>
 
-                    <div style={{ background: '#000', color: '#fff', padding: '4px 12px', borderRadius: '12px', fontSize: '12px', marginBottom: '20px' }}>
+                    <div style={{ marginBottom: '16px' }}>
+                        <Image src="/images/coin.png" alt="BADS Coin" width={80} height={80} style={{ objectFit: 'contain' }} />
+                    </div>
+
+                    <div style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', padding: '4px 12px', borderRadius: '12px', fontSize: '12px', marginBottom: '12px' }}>
                         Unclaimed Rewards
                     </div>
 
-                    <div style={{ fontSize: '80px', fontWeight: 'bold', lineHeight: 1 }}>0</div>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '32px' }}>$BADS</div>
+                    <div style={{ fontSize: '80px', fontWeight: 'bold', lineHeight: 1, color: '#fff' }}>0</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '32px', color: 'rgba(255,255,255,0.8)' }}>$BADS</div>
 
                     {!isAuthenticated ? (
                         <SignInButton />
@@ -59,11 +64,13 @@ export default function Rewards() {
                         <button style={{
                             width: '100%',
                             padding: '20px',
-                            border: '1px solid #000',
+                            background: '#fff',
+                            color: 'var(--primary)',
+                            border: 'none',
                             borderRadius: '16px',
                             fontSize: '18px',
                             fontWeight: '600',
-                            opacity: 0.5
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                         }}>
                             Claim
                         </button>
@@ -80,10 +87,10 @@ export default function Rewards() {
                     </div>
                 </div>
 
-                <div className="card" style={{ marginTop: '16px', padding: '16px', background: 'linear-gradient(90deg, #A78BFA 0%, #7C3AED 100%)', border: 'none' }}>
+                <div className="card" style={{ marginTop: '16px', padding: '16px', background: '#F5F7FA', border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 'bold' }}>Buy $BADS</span>
-                        <Wallet size={24} />
+                        <span style={{ fontWeight: 'bold', color: 'var(--foreground)' }}>Buy $BADS</span>
+                        <Wallet size={24} color="var(--primary)" />
                     </div>
                 </div>
             </div>

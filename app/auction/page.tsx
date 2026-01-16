@@ -17,17 +17,17 @@ export default function Auction() {
                     </div>
                 </div>
 
-                <div className="gradient-bg" style={{ marginBottom: '32px' }}>
+                <div className="gradient-bg" style={{ marginBottom: '32px', background: 'var(--primary)', color: '#fff' }}>
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '16px' }}>Bid on tomorrow's ad spot</h2>
-                    <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginBottom: '24px', lineHeight: '1.4' }}>
+                    <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.8)', marginBottom: '24px', lineHeight: '1.4' }}>
                         You haven't joined the race yet. Place your bid now to run your ad for 24 hours and get real humans to see your thing.
                     </p>
 
                     <div style={{ display: 'flex', gap: '12px' }}>
-                        <button className="btn-outline" style={{ background: 'white', color: 'black', border: 'none', flex: 1 }}>
+                        <button className="btn-outline" style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', flex: 1 }}>
                             How it works
                         </button>
-                        <button className="btn-primary" style={{ background: 'black', color: 'white', flex: 1 }}>
+                        <button className="btn-primary" style={{ background: '#fff', color: 'var(--primary)', flex: 1 }}>
                             <Plus size={20} />
                             Enter your Bid
                         </button>
@@ -41,7 +41,7 @@ export default function Auction() {
                     </div>
                 </div>
 
-                <div style={{ textAlign: 'center', py: '40px', color: 'var(--text-dim)' }}>
+                <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-dim)' }}>
                     No bids.
                 </div>
             </div>

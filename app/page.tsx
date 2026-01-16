@@ -95,16 +95,17 @@ export default function Home() {
             <div style={{ fontWeight: 'bold' }}>Holiday Drop ended</div>
             <div style={{ fontSize: '13px', color: 'var(--text-dim)' }}>Check out the winners.</div>
           </div>
-          <div style={{ width: 60, height: 60, background: '#222', borderRadius: '12px' }}></div>
+          <div style={{ width: 60, height: 60, background: 'var(--surface)', borderRadius: '12px' }}></div>
         </div>
 
-        <div style={{ position: 'relative', height: '400px', borderRadius: '24px', overflow: 'hidden', background: '#111' }}>
+        <div style={{ position: 'relative', height: '400px', borderRadius: '24px', overflow: 'hidden', background: '#000' }}>
           {/* Ad Image / Placeholder */}
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url("${ad?.mediaUrl || ''}")`,
+            background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url("${ad?.mediaUrl || '/images/ad-placeholder.png'}")`,
             backgroundSize: 'cover',
+            backgroundPosition: 'center',
             filter: isRevealed ? 'none' : 'blur(20px) brightness(0.5)',
             transition: 'filter 0.5s ease'
           }}></div>
@@ -129,13 +130,14 @@ export default function Home() {
                 style={{
                   width: '80%',
                   height: '60px',
-                  background: 'var(--gradient-primary)',
+                  background: 'var(--primary)',
                   borderRadius: '30px',
-                  color: '#000',
+                  color: '#fff',
                   fontWeight: 'bold',
                   fontSize: '18px',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 12px rgba(0, 82, 255, 0.3)'
                 }}
               >
                 <motion.div
@@ -144,13 +146,13 @@ export default function Home() {
                     left: 0,
                     top: 0,
                     bottom: 0,
-                    background: 'rgba(255,255,255,0.3)',
+                    background: 'rgba(255,255,255,0.2)',
                     width: `${progress}%`
                   }}
                 />
                 <span style={{ position: 'relative', zIndex: 1 }}>Hold to reveal</span>
               </motion.button>
-              <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-dim)' }}>
+              <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
                 <Users size={16} />
                 <span style={{ fontSize: '13px' }}>Viewed by 3.6K humans</span>
               </div>
