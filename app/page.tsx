@@ -81,7 +81,7 @@ export default function Home() {
       <div style={{ padding: '20px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div className="card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div style={{ fontSize: '24px', fontWeight: 'bold', fontFamily: 'monospace' }}>17:17</div>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', fontFamily: 'monospace' }}>--:--</div>
             <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Until the next ad</div>
           </div>
           <div className="card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center', justifyContent: 'center' }}>
@@ -92,8 +92,8 @@ export default function Home() {
 
         <div className="card" style={{ padding: '16px', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <div style={{ fontWeight: 'bold' }}>Holiday Drop ended</div>
-            <div style={{ fontSize: '13px', color: 'var(--text-dim)' }}>Check out the winners.</div>
+            <div style={{ fontWeight: 'bold' }}>Past Drops</div>
+            <div style={{ fontSize: '13px', color: 'var(--text-dim)' }}>Check out previous campaigns.</div>
           </div>
           <div style={{ width: 60, height: 60, background: 'var(--surface)', borderRadius: '12px' }}></div>
         </div>
@@ -112,7 +112,6 @@ export default function Home() {
 
           <div style={{ position: 'absolute', top: '16px', left: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div className="badge">by {ad?.advertiserName || ad?.advertiser?.displayName || 'Advertiser'}</div>
-            <div style={{ fontSize: '12px', color: '#fff' }}>17:17:35</div>
           </div>
 
           <div style={{ position: 'absolute', top: '50px', left: '16px', right: '16px' }}>
@@ -154,7 +153,7 @@ export default function Home() {
               </motion.button>
               <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
                 <Users size={16} />
-                <span style={{ fontSize: '13px' }}>Viewed by 3.6K humans</span>
+                <span style={{ fontSize: '13px' }}>Viewed by real humans</span>
               </div>
             </div>
           )}

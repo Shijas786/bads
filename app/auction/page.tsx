@@ -12,7 +12,7 @@ export default function Auction() {
 
             <div style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
-                    <div className="badge">Auction #110</div>
+                    <div className="badge">Current Auction</div>
                     <div className="card" style={{ padding: '8px', display: 'flex', alignItems: 'center' }}>
                         <List size={20} />
                     </div>
@@ -21,7 +21,7 @@ export default function Auction() {
                 <div className="gradient-bg" style={{ marginBottom: '32px', background: 'var(--primary)', color: '#fff' }}>
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '16px' }}>Bid on tomorrow's ad spot</h2>
                     <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.8)', marginBottom: '24px', lineHeight: '1.4' }}>
-                        You haven't joined the race yet. Place your bid now to run your ad for 24 hours and get real humans to see your thing.
+                        Place your bid now to run your ad for 24 hours and get real humans to see your thing.
                     </p>
 
                     <div style={{ display: 'flex', gap: '12px' }}>
@@ -39,9 +39,6 @@ export default function Auction() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold' }}>Current Bids</h3>
-                    <div className="card" style={{ padding: '4px 8px', fontSize: '13px', color: 'var(--text-dim)' }}>
-                        16:17:22
-                    </div>
                 </div>
 
                 <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-dim)' }}>
