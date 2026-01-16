@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  fid           Int      @id
+  username      String?
+  displayName   String?
+  pfpUrl        String?
+  walletAddress String?
+  balance       Float    @default(0)
+  referredByFid Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  ads           Ad[]
+  bids          Bid[]
+  watches       WatchHistory[]
+  referrals     ReferralReward[] @relation("Referrer")
+  referralOf    ReferralReward[] @relation("Referee")
+}
+
+model Ad {
+  id           String    @id @default(uuid())
+  advertiserFid Int
+  advertiser    User      @relation(fields: [advertiserFid], references: [fid])
+  title        String
+  ctaLink      String
+  mediaUrl     String
+  type         String    @default("IMAGE") // IMAGE, VIDEO
+  status       Status    @default(PENDING)
+  scheduledFor DateTime?
+  winningBid   Float?
+  createdAt    DateTime  @default(now())
+  
+  bids         Bid[]
+  watches      WatchHistory[]
+  referralRewards ReferralReward[]
+}
+
+enum Status {
+  PENDING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Bid {
+  id            String   @id @default(uuid())
+  adId          String
+  ad            Ad       @relation(fields: [adId], references: [id])
+  advertiserFid Int
+  advertiser    User     @relation(fields: [advertiserFid], references: [fid])
+  amount        Float
+  timestamp     DateTime @default(now())
+}
+
+model WatchHistory {
+  id           String   @id @default(uuid())
+  fid          Int
+  user         User     @relation(fields: [fid], references: [fid])
+  adId         String
+  ad           Ad       @relation(fields: [adId], references: [id])
+  timestamp    DateTime @default(now())
+  rewardAmount Float
+  
+  @@unique([fid, adId]) // One watch per ad per user
+}
+
+model ReferralReward {
+  id           String   @id @default(uuid())
+  referrerFid  Int
+  referrer     User     @relation("Referrer", fields: [referrerFid], references: [fid])
+  refereeFid   Int
+  referee      User     @relation("Referee", fields: [refereeFid], references: [fid])
+  adId         String
+  ad           Ad       @relation(fields: [adId], references: [id])
+  amount       Float
+  timestamp    DateTime @default(now())
+}
+
+model GlobalConfig {
+  key   String @id
+  value String
+}
