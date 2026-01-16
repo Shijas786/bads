@@ -62,8 +62,8 @@ export default function BidPage() {
         } catch (err: any) {
             console.error(err);
             // Check for specific error or just show message
-            if (err.message.includes('Auction does not exist')) {
-                setStatus('Error: Auction not started yet.');
+            if (err.message.includes('Auction does not exist') || err.message.includes('Simulation Failed')) {
+                setStatus('Error: Auction not initialized. Click "(Dev) Join/Start Auction" below first.');
             } else {
                 setStatus('Error: ' + (err.message || 'Transaction failed'));
             }
