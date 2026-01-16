@@ -30,11 +30,17 @@ export default function CreateAd() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Save to DB/Storage
-        console.log('Submitting:', formData);
 
-        // Navigate to bidding
-        // In a real app, we'd pass the AD ID created
+        // Save draft to local storage for the next step
+        // In a real app, this would be a DB call returning an ID
+        localStorage.setItem('adDraft', JSON.stringify({
+            ...formData,
+            // visually we can't store the file object easily in localstorage without base64
+            // so we skip the visual file for this simple pass, or handle it separately
+            visualName: formData.visual?.name
+        }));
+
+        console.log('Submitting:', formData);
         router.push('/auction/bid');
     };
 
