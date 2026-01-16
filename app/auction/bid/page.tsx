@@ -100,6 +100,23 @@ export default function BidPage() {
         }
     };
 
+    // Dev helper to End auction
+    const handleEndAuction = async () => {
+        try {
+            setStatus('Ending auction...');
+            await writeContractAsync({
+                address: (process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS || "0xcE76Ed3427BDf5FbFe503EbA07263637dE03a3bC") as `0x${string}`,
+                abi: AD_AUCTION_ABI,
+                functionName: 'endAuction',
+                args: ['bads-daily-1'],
+            });
+            setStatus('Auction ended! Winner settled.');
+        } catch (err: any) {
+            console.error(err);
+            setStatus('Error ending: ' + err.message);
+        }
+    };
+
     if (!draft) return <div style={{ padding: 20 }}>Loading...</div>;
 
     return (
@@ -210,18 +227,33 @@ export default function BidPage() {
                                     {isPending ? 'Check Wallet...' : isConfirming ? 'Confirming...' : `Place Bid`}
                                 </button>
 
-                                <button onClick={handleInitAuction} style={{
-                                    fontSize: '14px',
-                                    color: '#ff4d4d',
-                                    background: 'rgba(255, 77, 77, 0.1)',
-                                    padding: '12px',
-                                    borderRadius: '8px',
-                                    marginTop: '16px',
-                                    width: '100%',
-                                    fontWeight: 'bold'
-                                }}>
-                                    ⚠️ Admin: Initialize Daily Auction
-                                </button>
+                                {!auctionExists ? (
+                                    <button onClick={handleInitAuction} style={{
+                                        fontSize: '14px',
+                                        color: '#ff4d4d',
+                                        background: 'rgba(255, 77, 77, 0.1)',
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        marginTop: '16px',
+                                        width: '100%',
+                                        fontWeight: 'bold'
+                                    }}>
+                                        ⚠️ Admin: Initialize Daily Auction
+                                    </button>
+                                ) : (
+                                    <button onClick={handleEndAuction} style={{
+                                        fontSize: '12px',
+                                        color: '#888',
+                                        textDecoration: 'underline',
+                                        marginTop: '16px',
+                                        width: '100%',
+                                        background: 'transparent',
+                                        border: 'none',
+                                        cursor: 'pointer'
+                                    }}>
+                                        (Dev) End Auction & Settle
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
