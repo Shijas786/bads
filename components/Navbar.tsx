@@ -40,6 +40,7 @@ export function Navbar() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <appkit-button />
                 <button onClick={handleShare}>
                     <Share2 size={24} />
                 </button>
