@@ -61,11 +61,10 @@ export default function BidPage() {
             setStatus('Transaction sent! Waiting for confirmation...');
         } catch (err: any) {
             console.error(err);
-            // Check for specific error or just show message
             if (err.message.includes('Auction does not exist') || err.message.includes('Simulation Failed')) {
-                setStatus('Error: Auction not initialized. Click "(Dev) Join/Start Auction" below first.');
+                setStatus('Error: Auction #1 not started. Please click "Start Auction" below.');
             } else {
-                setStatus('Error: ' + (err.message || 'Transaction failed'));
+                setStatus('Error: ' + (err.message || 'Transaction failed. Check wallet balance.'));
             }
         }
     };
@@ -187,8 +186,17 @@ export default function BidPage() {
                                     {isPending ? 'Check Wallet...' : isConfirming ? 'Confirming...' : `Place Bid`}
                                 </button>
 
-                                <button onClick={handleInitAuction} style={{ fontSize: '12px', color: '#666', textDecoration: 'underline', marginTop: '8px' }}>
-                                    (Dev) Join/Start Auction #1
+                                <button onClick={handleInitAuction} style={{
+                                    fontSize: '14px',
+                                    color: '#ff4d4d',
+                                    background: 'rgba(255, 77, 77, 0.1)',
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    marginTop: '16px',
+                                    width: '100%',
+                                    fontWeight: 'bold'
+                                }}>
+                                    ⚠️ Admin: Initialize Daily Auction
                                 </button>
                             </div>
                         </div>
