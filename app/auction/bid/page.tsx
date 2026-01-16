@@ -6,7 +6,7 @@ import { ChevronLeft, Wallet, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useChainId } from 'wagmi';
 import { AD_AUCTION_ABI } from '@/lib/contracts';
-import { parseEther } from 'viem';
+import { parseEther, formatEther } from 'viem';
 
 export default function BidPage() {
     const router = useRouter();
@@ -44,6 +44,9 @@ export default function BidPage() {
     // [adId, auctioneer, minBid, highestBidAmount, highestBidder, ended, endTime]
     // If auctioneer is 0x0, it doesn't exist.
     const auctionExists = auctionData && (auctionData as any)[1] !== '0x0000000000000000000000000000000000000000';
+    const highestBidRaw = auctionData ? (auctionData as any)[3] : BigInt(0);
+    const highestBidEth = formatEther(highestBidRaw);
+    const minBidEth = auctionData ? formatEther((auctionData as any)[2]) : '0';
 
     // Contract Interaction
     const { data: hash, isPending, writeContractAsync } = useWriteContract();
@@ -137,6 +140,8 @@ export default function BidPage() {
                     <p>Contract: {contractAddress}</p>
                     <p>Auction Loaded: {isReading ? 'Loading...' : 'Yes'}</p>
                     <p>Auction Exists: {auctionExists ? '✅ YES' : '❌ NO'}</p>
+                    <p>Highest Bid: {highestBidEth} ETH</p>
+                    <p>Min Bid: {minBidEth} ETH</p>
                     {readError && <p style={{ color: 'red' }}>Read Error: {readError.message}</p>}
                 </div>
 
