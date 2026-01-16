@@ -4,46 +4,59 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Wallet, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useChainId } from 'wagmi';
 import { AD_AUCTION_ABI } from '@/lib/contracts';
 import { parseEther } from 'viem';
 
 export default function BidPage() {
     const router = useRouter();
     const { address, isConnected } = useAccount();
+    const chainId = useChainId();
     const [draft, setDraft] = useState<any>(null);
     const [bidAmount, setBidAmount] = useState('');
     const [status, setStatus] = useState<string>('');
 
-    // Load draft from local storage
+    // Load draft
     useEffect(() => {
         const stored = localStorage.getItem('adDraft');
-        if (stored) {
-            setDraft(JSON.parse(stored));
-        } else {
-            // If no draft, redirect back to create
-            router.push('/create-ad');
-        }
+        if (stored) setDraft(JSON.parse(stored));
+        else router.push('/create-ad');
     }, [router]);
 
-    // Contract Interaction
-    const { data: hash, isPending, writeContract } = useWriteContract();
-    const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
-        hash,
+    // Contract Config
+    const contractConfig = {
+        address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
+        abi: AD_AUCTION_ABI,
+    };
+
+    // Read Auction State
+    const { data: auctionData, error: readError, isLoading: isReading } = useReadContract({
+        ...contractConfig,
+        functionName: 'auctions',
+        args: ['bads-daily-1'],
+        query: {
+            refetchInterval: 2000
+        }
     });
+
+    // AuctionData is a struct/array. 
+    // [adId, auctioneer, minBid, highestBidAmount, highestBidder, ended, endTime]
+    // If auctioneer is 0x0, it doesn't exist.
+    const auctionExists = auctionData && (auctionData as any)[1] !== '0x0000000000000000000000000000000000000000';
+
+    // Contract Interaction
+    const { data: hash, isPending, writeContractAsync } = useWriteContract();
+    const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
     useEffect(() => {
         if (isConfirming) setStatus('Confirming transaction...');
         if (isSuccess) {
-            setStatus('Bid placed successfully!');
-            // clear draft
+            setStatus('Success!');
             localStorage.removeItem('adDraft');
-            // Navigate to success or auction page
             setTimeout(() => router.push('/auction'), 2000);
         }
     }, [isConfirming, isSuccess, router]);
 
-    const { writeContractAsync } = useWriteContract(); // Use Async version for better flow control
 
     const handleBid = async () => {
         if (!bidAmount || parseFloat(bidAmount) <= 0) return alert('Enter a valid amount');
@@ -99,6 +112,16 @@ export default function BidPage() {
             </div>
 
             <div style={{ padding: '20px' }}>
+                {/* Debug Panel - Remove in Prod */}
+                <div style={{ background: '#111', padding: 12, borderRadius: 8, border: '1px dashed #444', marginBottom: 20, fontSize: 12, color: '#888' }}>
+                    <p><strong>Debug Info:</strong></p>
+                    <p>Chain ID: {chainId}</p>
+                    <p>Contract: {process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS}</p>
+                    <p>Auction Loaded: {isReading ? 'Loading...' : 'Yes'}</p>
+                    <p>Auction Exists: {auctionExists ? '✅ YES' : '❌ NO'}</p>
+                    {readError && <p style={{ color: 'red' }}>Read Error: {readError.message}</p>}
+                </div>
+
                 {/* Ad Preview Card */}
                 <div style={{ marginBottom: '24px' }}>
                     <h2 style={{ fontSize: '14px', color: 'var(--text-dim)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>Your Ad Preview</h2>
