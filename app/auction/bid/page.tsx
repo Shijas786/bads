@@ -143,6 +143,9 @@ export default function BidPage() {
                     <p>Highest Bid: {highestBidEth} ETH</p>
                     <p>Min Bid: {minBidEth} ETH</p>
                     {readError && <p style={{ color: 'red' }}>Read Error: {readError.message}</p>}
+                    <button onClick={() => window.location.reload()} style={{ marginTop: 8, padding: '4px 8px', background: '#333', color: '#fff', border: 'none', borderRadius: 4 }}>
+                        Force Refresh
+                    </button>
                 </div>
 
                 {/* Ad Preview Card */}
