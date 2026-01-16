@@ -43,22 +43,47 @@ export default function BidPage() {
         }
     }, [isConfirming, isSuccess, router]);
 
+    const { writeContractAsync } = useWriteContract(); // Use Async version for better flow control
+
     const handleBid = async () => {
         if (!bidAmount || parseFloat(bidAmount) <= 0) return alert('Enter a valid amount');
         if (!isConnected) return alert('Please connect your wallet first');
 
         try {
-            setStatus('Initiating wallet...');
-            writeContract({
+            setStatus('Initiating transaction...');
+            await writeContractAsync({
                 address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
                 abi: AD_AUCTION_ABI,
                 functionName: 'placeBid',
-                args: ['bads-daily-1'], // HARDCODED AD ID FOR MVP
+                args: ['bads-daily-1'],
                 value: parseEther(bidAmount),
             });
+            setStatus('Transaction sent! Waiting for confirmation...');
         } catch (err: any) {
             console.error(err);
-            setStatus('Error: ' + (err.message || 'Transaction failed'));
+            // Check for specific error or just show message
+            if (err.message.includes('Auction does not exist')) {
+                setStatus('Error: Auction not started yet.');
+            } else {
+                setStatus('Error: ' + (err.message || 'Transaction failed'));
+            }
+        }
+    };
+
+    // Dev helper to start auction
+    const handleInitAuction = async () => {
+        try {
+            setStatus('Creating auction...');
+            await writeContractAsync({
+                address: process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
+                abi: AD_AUCTION_ABI,
+                functionName: 'createAuction',
+                args: ['bads-daily-1', parseEther('0.0001'), BigInt(86400)], // 24 hours
+            });
+            setStatus('Auction created!');
+        } catch (err: any) {
+            console.error(err);
+            setStatus('Error creating: ' + err.message);
         }
     };
 
@@ -160,6 +185,10 @@ export default function BidPage() {
                                     }}
                                 >
                                     {isPending ? 'Check Wallet...' : isConfirming ? 'Confirming...' : `Place Bid`}
+                                </button>
+
+                                <button onClick={handleInitAuction} style={{ fontSize: '12px', color: '#666', textDecoration: 'underline', marginTop: '8px' }}>
+                                    (Dev) Join/Start Auction #1
                                 </button>
                             </div>
                         </div>
