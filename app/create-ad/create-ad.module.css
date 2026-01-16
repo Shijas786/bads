@@ -1,0 +1,125 @@
+.container {
+    background-color: #000000;
+    min-height: 100vh;
+    color: #ffffff;
+    padding-bottom: 100px;
+    font-family: var(--font-inter), sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    background: #000;
+    /* simplified for now */
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
+
+.yellowGradient {
+    background: linear-gradient(180deg, #E3F87D 0%, #F5F7FA 100%);
+    /* Approximate from screenshot */
+    padding: 24px 20px;
+    color: #000;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 24px;
+}
+
+.formGroup {
+    margin-bottom: 24px;
+    padding: 0 20px;
+}
+
+.label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input {
+    width: 100%;
+    background: #1A1A1A;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: #4A4A4A;
+}
+
+.textarea {
+    width: 100%;
+    background: #1A1A1A;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    font-size: 16px;
+    min-height: 120px;
+    resize: none;
+    border-color: #333;
+}
+
+.helperText {
+    color: #888;
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+.uploadBox {
+    width: 80px;
+    height: 80px;
+    background: #1A1A1A;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #333;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    padding: 16px 20px;
+    border-top: 1px solid #222;
+}
+
+.submitBtn {
+    width: 100%;
+    background: #FFFFFF;
+    color: #000000;
+    font-weight: 700;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.timerBadge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+}

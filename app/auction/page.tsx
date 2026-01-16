@@ -3,6 +3,7 @@
 import { Navbar } from '@/components/Navbar';
 import { BottomNav } from '@/components/BottomNav';
 import { Plus, List } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Auction() {
     return (
@@ -27,10 +28,12 @@ export default function Auction() {
                         <button className="btn-outline" style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', flex: 1 }}>
                             How it works
                         </button>
-                        <button className="btn-primary" style={{ background: '#fff', color: 'var(--primary)', flex: 1 }}>
-                            <Plus size={20} />
-                            Enter your Bid
-                        </button>
+                        <Link href="/create-ad" style={{ flex: 1 }}>
+                            <button className="btn-primary" style={{ background: '#fff', color: 'var(--primary)', width: '100%' }}>
+                                <Plus size={20} />
+                                Enter your Bid
+                            </button>
+                        </Link>
                     </div>
                 </div>
 
