@@ -191,6 +191,12 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        {/* Debug */}
+        <div style={{ fontSize: 10, color: '#444', marginTop: 20, textAlign: 'center' }}>
+          Contract: {contractAddress}<br />
+          Has Winner: {hasWinner ? 'YES' : 'NO'} | Bidder: {highestBidder}
+        </div>
       </div>
 
       <BottomNav />
