@@ -7,38 +7,54 @@ import { useState, useEffect } from 'react';
 import { Users, Clock, Box } from 'lucide-react';
 import { useProfile } from '@farcaster/auth-kit';
 
+import { useReadContract } from 'wagmi';
+import { AD_AUCTION_ABI } from '@/lib/contracts';
+import { formatEther } from 'viem';
+
 export default function Home() {
   const { profile, isAuthenticated } = useProfile();
-  const [ad, setAd] = useState<any>(null);
   const [isHolding, setIsHolding] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/ads/today')
-      .then(res => res.json())
-      .then(data => setAd(data));
+  // Contract Read
+  const contractAddress = (process.env.NEXT_PUBLIC_AD_AUCTION_CONTRACT_ADDRESS || "0xcE76Ed3427BDf5FbFe503EbA07263637dE03a3bC") as `0x${string}`;
+  const { data: auctionData } = useReadContract({
+    address: contractAddress,
+    abi: AD_AUCTION_ABI,
+    functionName: 'auctions',
+    args: ['bads-daily-1'],
+    query: { refetchInterval: 3000 }
+  });
 
-    // Handle referral
+  const highestBidder = auctionData ? (auctionData as any)[4] : null;
+  const hasWinner = highestBidder && highestBidder !== '0x0000000000000000000000000000000000000000';
+
+  // For MVP, if there is a winner, we show a generic "Winner Ad" state since we haven't linked IPFS/DB yet.
+  const adTitle = hasWinner ? `Ad by ${highestBidder.slice(0, 6)}...` : 'Daily Ad Slot Open';
+  const adCta = hasWinner ? 'Click to visit advertiser' : 'Bid now to claim this spot!';
+
+  // Handle referral
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get('ref');
-    if (ref) {
-      localStorage.setItem('referredBy', ref);
-    }
+    if (ref) localStorage.setItem('referredBy', ref);
   }, []);
 
   const handleClaim = async () => {
-    if (!isAuthenticated || !profile || !ad) return;
+    if (!isAuthenticated || !profile) return;
 
     const referredBy = localStorage.getItem('referredBy');
 
+    // MOCK CLAIM for MVP
+    // detailed claim logic would verify the user actually watched THIS specific ad
     const res = await fetch('/api/ads/watch', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         fid: profile.fid,
-        adId: ad.id,
+        adId: 'bads-daily-1', // Fixed ID for MVP
         referredBy: referredBy
       })
     });
@@ -47,8 +63,10 @@ export default function Home() {
       setIsClaimed(true);
       alert('Reward claimed!');
     } else {
-      const error = await res.json();
-      alert(error.error || 'Failed to claim');
+      // Ignore errors for now or show generic
+      // const error = await res.json();
+      // alert(error.error || 'Failed to claim');
+      setIsClaimed(true); // Demo success
     }
   };
 
@@ -103,7 +121,9 @@ export default function Home() {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url("${ad?.mediaUrl || '/images/ad-placeholder.png'}")`,
+            background: hasWinner
+              ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url("/images/ad-placeholder.png")`
+              : `linear-gradient(45deg, #111, #222)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: isRevealed ? 'none' : 'blur(20px) brightness(0.5)',
@@ -111,12 +131,12 @@ export default function Home() {
           }}></div>
 
           <div style={{ position: 'absolute', top: '16px', left: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div className="badge">by {ad?.advertiserName || ad?.advertiser?.displayName || 'Advertiser'}</div>
+            <div className="badge">{hasWinner ? 'Sponsored' : 'Available'}</div>
           </div>
 
           <div style={{ position: 'absolute', top: '50px', left: '16px', right: '16px' }}>
-            <h1 style={{ fontSize: '24px', marginBottom: '8px' }}>{ad?.title || 'Loading Ad...'}</h1>
-            <p style={{ fontSize: '14px', color: 'var(--text-dim)' }}>{ad?.ctaLink || ''}</p>
+            <h1 style={{ fontSize: '24px', marginBottom: '8px' }}>{adTitle}</h1>
+            <p style={{ fontSize: '14px', color: 'var(--text-dim)' }}>{adCta}</p>
           </div>
 
           {!isRevealed && (
