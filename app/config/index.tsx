@@ -20,7 +20,7 @@ export const wagmiAdapter = new WagmiAdapter({
     projectId,
     networks,
     transports: {
-        [base.id]: http('https://mainnet.base.org'),
+        [base.id]: http('https://base.llamarpc.com'),
         [baseSepolia.id]: http('https://sepolia.base.org'),
     }
 });
