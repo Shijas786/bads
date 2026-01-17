@@ -19,6 +19,10 @@ export const wagmiAdapter = new WagmiAdapter({
     ssr: true,
     projectId,
     networks,
+    transports: {
+        [base.id]: http('https://mainnet.base.org'),
+        [baseSepolia.id]: http('https://sepolia.base.org'),
+    }
 });
 
 export const config = wagmiAdapter.wagmiConfig;
